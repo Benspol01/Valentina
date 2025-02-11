@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Will You Be My Valentine?</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background: #ffebee url("IMG_9555.jpg") no-repeat center center/cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        text-align: center;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 500px;
+        margin-top: 50px;
+      }
+
+      h1 {
+        color: #d32f2f;
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      .heart {
+        font-size: 3rem;
+        color: #d32f2f;
+        animation: beat 1s infinite;
+      }
+
+      @keyframes beat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      .buttons {
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      #yesBtn {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      #yesBtn:hover {
+        background-color: #388e3c;
+      }
+
+      #noBtn {
+        background-color: #f44336;
+        color: white;
+      }
+
+      #noBtn:hover {
+        background-color: #d32f2f;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .message {
+        font-size: 1.5rem;
+        margin-top: 20px;
+        color: #d32f2f;
+      }
+    </style>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      // Initialize EmailJS with your public key
+      (function () {
+        emailjs.init("S8Vy77LYVXV4LGVPB"); // Replace with your public key
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Will You Be My Valentine?</h1>
+      <div class="heart">❤️</div>
+      <div class="buttons">
+        <button id="yesBtn" aria-label="Yes">Yes!</button>
+        <button id="noBtn" aria-label="No">No</button>
+      </div>
+      <div id="responseMessage" class="hidden message"></div>
+    </div>
+
+    <script>
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const responseMessage = document.getElementById("responseMessage");
+
+      // Yes button clicked
+      yesBtn.addEventListener("click", () => {
+        // Send an email notification when Yes is clicked
+        const templateParams = {
+          to_name: "Vince", // Replace with your name
+          message: "She said YES to be your Valentine!", // Customize message
+          from_name: "Your Website", // Sender name
+        };
+
+        emailjs
+          .send("service_mtwh9mk", "template_5ul5mej", templateParams) // Replace with your EmailJS service and template ID
+          .then(
+            function (response) {
+              console.log("SUCCESS!", response);
+              window.location.href = "letter.html"; // Redirect to the letter page
+            },
+            function (error) {
+              console.log("FAILED...", error);
+              alert("Failed to send the email. Please try again later.");
+            }
+          );
+      });
+
+      // No button clicked
+      noBtn.addEventListener("click", () => {
+        responseMessage.textContent = "Sorry pero wala kang choice! ror ❤️";
+        responseMessage.classList.remove("hidden");
+        noBtn.disabled = true; // Disable the "No" button
+        yesBtn.focus(); // Focus on the "Yes" button
+      });
+    </script>
+  </body>
+</html>
